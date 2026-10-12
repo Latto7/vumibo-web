@@ -10,27 +10,41 @@ import { CREW, KIDS, EPISODES } from '../data/site';
 const ep = EPISODES[EPISODES.length - 1];
 const renk = { red: 'var(--red)', pink: 'var(--pink)', blue: 'var(--blue)', orange: 'var(--orange)', yellow: 'var(--yellow-d)' };
 ---
-<Base preloadHero>
+<Base>
   <!-- HERO -->
   <section class="hero" id="top">
     <div class="hero__card">
-      <div class="hero__clip" aria-hidden="true">
-        <img class="hero__bg" src="/img/hero.webp" alt="" width="2200" height="1237" fetchpriority="high" />
-        <div class="hero__shade"></div>
+      <div class="hero__sky" aria-hidden="true">
+        <div class="hero__rays"></div>
+        <i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i>
+        <i class="star s1"></i><i class="star s2"></i><i class="star s3"></i><i class="star s4"></i><i class="star s5"></i>
       </div>
+      <svg class="hero__hills" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+        <path class="h1" d="M0 140 C 240 60 420 60 640 130 S 1080 220 1440 110 V320 H0Z" />
+        <path class="h2" d="M0 210 C 300 140 520 170 760 210 S 1180 250 1440 190 V320 H0Z" />
+      </svg>
       <div class="hero__text">
-        <p class="eyebrow eyebrow--light h-in">Songs &amp; cartoons for ages 2–6</p>
-        <h1 class="hero__title" data-split>Big rescues<br />for <span class="rainbow">little heroes</span>.</h1>
+        <p class="hero__tag h-in"><span>★</span> Songs &amp; cartoons for ages 2–6</p>
+        <h1 class="hero__title">Big rescues for <span class="rainbow">little heroes!</span></h1>
         <p class="hero__lead h-in">Sing, count and learn colors with Vumi, Bo and the friendliest rescue team in the toy town.</p>
         <div class="hero__cta h-in">
-          <a class="btn btn--yellow magnet" href="#episode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>Watch episode {ep.no}</a>
-          <a class="btn btn--ghost magnet" href="#music">Listen to the songs</a>
+          <a class="btn btn--red" href="#episode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>Watch episode {ep.no}</a>
+          <a class="btn btn--white" href="#music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.6A4 4 0 1 0 14 17V7h4V3z" /></svg>Listen to the songs</a>
         </div>
-        <ul class="hero__badges h-in"><li>New episode every week</li><li>No scary crashes</li><li>Made for kids</li></ul>
       </div>
-      <img class="hero__kids" src="/img/bebekler.webp" alt="Vumi and Bo, two smiling baby siblings, waving hello" width="1267" height="1292" />
-      <span class="float f1" data-depth="40" aria-hidden="true"></span><span class="float f2" data-depth="-30" aria-hidden="true"></span>
-      <span class="float f3" data-depth="55" aria-hidden="true"></span><span class="float f4" data-depth="-45" aria-hidden="true"></span>
+      <div class="hero__stage">
+        <img class="hero__kids" src="/img/bebekler.webp" alt="Vumi and Bo, two smiling baby siblings, waving hello" width="1267" height="1292" fetchpriority="high" />
+      </div>
+      <ul class="hero__crew" aria-label="The Vumibo Rescue Crew">
+        {CREW.map((c, i) => (
+          <li style={`--i:${i};--c:${renk[c.color]}`}>
+            <button class="hero__car" data-ses={c.sound} aria-label={`Hear ${c.name}`}>
+              <img src={c.img.src} alt={`${c.name} ${c.role.toLowerCase()}`} width={c.img.w} height={c.img.h} />
+              <span>{c.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 

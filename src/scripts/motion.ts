@@ -27,7 +27,7 @@ function bol(el: HTMLElement): HTMLElement[] {
 }
 
 export function motion() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || location.search.includes('static')) return;
   const q = (s: string) => Array.from(document.querySelectorAll<HTMLElement>(s));
   const ince = matchMedia('(pointer: fine)').matches;
 
@@ -36,28 +36,27 @@ export function motion() {
   if (baslik) {
     const kel = bol(baslik);
     gsap.timeline({ defaults: { ease: 'back.out(1.8)' } })
-      .from('.hero__bg', { scale: 1.18, duration: 1.6, ease: 'power3.out' }, 0)
-      .from(kel, { yPercent: 120, rotate: 8, duration: .9, stagger: .07 }, .2)
-      .from('.h-in', { y: 30, opacity: 0, duration: .7, stagger: .1, ease: 'power3.out' }, .6)
-      .from('.hero__kids', { y: 260, scale: .6, rotate: 8, opacity: 0, duration: 1.3, ease: 'elastic.out(1, .55)' }, .5)
-      .from('.float', { scale: 0, rotate: 'random(-180, 180)', duration: 1, stagger: .08, ease: 'back.out(3)' }, .9);
+      .from('.hero__rays', { scale: .3, opacity: 0, duration: 1.4, ease: 'power3.out' }, 0)
+      .from('.hero__hills path', { yPercent: 60, duration: 1.1, stagger: .12, ease: 'power3.out' }, 0)
+      .from('.cloud', { x: -80, opacity: 0, duration: 1.2, stagger: .15, ease: 'power3.out' }, .1)
+      .from(kel, { yPercent: 120, rotate: 8, duration: .9, stagger: .07 }, .25)
+      .from('.h-in', { y: 30, opacity: 0, duration: .7, stagger: .1, ease: 'power3.out' }, .55)
+      .from('.hero__kids', { y: 300, scale: .7, opacity: 0, duration: 1.4, ease: 'elastic.out(1, .55)' }, .45)
+      .from('.hero__crew li', { y: 160, opacity: 0, duration: 1, stagger: .09, ease: 'back.out(2.2)' }, .9);
 
-    gsap.to('.hero__bg', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.hero__kids', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero__stage', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero__rays', { scale: 1.25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
     if (ince) {
       const kart = document.querySelector<HTMLElement>('.hero__card');
-      const yuz = q('.float').map((el) => ({
-        d: Number(el.dataset.depth || 30),
-        x: gsap.quickTo(el, 'x', { duration: .8, ease: 'power3' }),
-        y: gsap.quickTo(el, 'y', { duration: .8, ease: 'power3' }),
-      }));
-      const bx = gsap.quickTo('.hero__kids', 'x', { duration: 1, ease: 'power3' });
+      const kx = gsap.quickTo('.hero__kids', 'x', { duration: 1, ease: 'power3' });
+      const bx = gsap.quickTo('.cloud', 'x', { duration: 1.4, ease: 'power3' });
+      const sx = gsap.quickTo('.star', 'x', { duration: 1, ease: 'power3' });
+      const sy = gsap.quickTo('.star', 'y', { duration: 1, ease: 'power3' });
       kart?.addEventListener('pointermove', (e) => {
         const r = kart.getBoundingClientRect();
         const nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
-        yuz.forEach((f) => { f.x(nx * f.d); f.y(ny * f.d); });
-        bx(nx * -18);
+        kx(nx * -22); bx(nx * 40); sx(nx * 26); sy(ny * 18);
       });
     }
   }
