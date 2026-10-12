@@ -1,0 +1,11 @@
+---
+interface Props { id: string; title: string; thumb: string }
+const { id, title, thumb } = Astro.props;
+---
+<div>
+  <button class="lite" data-id={id} aria-label={`Play: ${title}`}>
+    <img src={thumb} alt="" width="1280" height="720" loading="lazy" />
+    <span class="lite__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg></span>
+  </button>
+  <p class="note">The video loads from YouTube’s privacy-enhanced mode only after you press play.</p>
+</div>

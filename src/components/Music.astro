@@ -1,0 +1,25 @@
+---
+import { SITE } from '../data/site';
+---
+<section class="sec music" id="music">
+  <div class="wrap music__grid">
+    <div class="music__text reveal">
+      <p class="eyebrow eyebrow--light">Songs for the car, the bath and bedtime</p>
+      <h2>Take the Rescue Crew everywhere.</h2>
+      <p class="lead">All Vumibo songs are on Spotify and Apple Music. Scan with your phone camera or tap to listen.</p>
+      <button class="btn btn--yellow" data-ses="vumibo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 5V5L7 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z" /></svg>Say “Vu-mi-bo!”
+      </button>
+    </div>
+    <div class="music__cards">
+      <a class="qr qr--spotify reveal" href={SITE.links.spotify} target="_blank" rel="noopener" style="--d:1">
+        <span class="qr__head"><small>Listen on</small>Spotify</span>
+        <img src="/img/qr_spotify.svg" alt="QR code for Vumibo on Spotify" width="300" height="300" loading="lazy" />
+      </a>
+      <a class="qr qr--apple reveal" href={SITE.links.apple} target="_blank" rel="noopener" style="--d:2">
+        <span class="qr__head"><small>Listen on</small>Apple Music</span>
+        <img src="/img/qr_apple.svg" alt="QR code for Vumibo on Apple Music" width="300" height="300" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</section>

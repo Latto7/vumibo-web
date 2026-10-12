@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Music from '../components/Music.astro';
+import Band from '../components/Band.astro';
+---
+<Base title="Songs" description="Listen to Vumibo songs on Spotify and Apple Music – the Vumibo Rescue Crew theme song and happy sing-alongs for toddlers.">
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-self:center">Music</p>
+      <h1 data-split>Sing along <span class="rainbow">anywhere</span></h1>
+      <p class="lead reveal">Car rides, bath time, dance parties – the Vumibo Rescue Crew songs come with you.</p>
+    </div>
+  </section>
+  <div style="margin-top:var(--sec)"><Music /></div>
+  <section class="sec">
+    <div class="prose reveal">
+      <p class="eyebrow">Theme song</p>
+      <h2>Vumibo Rescue Crew Theme</h2>
+      <p><em>Vumi and Bo, here we go!</em></p>
+      <p>In a cozy little playroom, on a carpet town so bright,<br />Lives a team of happy helpers, ready day and night!<br />When a ball gets stuck, or a tower falls down,<br />Who will come to help in Vumibo Town?</p>
+      <p><strong>Vumibo Rescue, go, go, go!<br />Ruby, Ambie, Siro, Tuggy, Diggo!<br />Red, white, blue, orange, yellow too,<br />Vumibo Rescue is here for you!</strong></p>
+      <p>Ruby has a ladder, Ambie has a heart,<br />Siro says “Safety first!” right from the start,<br />Tuggy pulls and Diggo digs, they never stop,<br />Helping friends together, from the bottom to the top!</p>
+    </div>
+  </section>
+  <Band />
+</Base>

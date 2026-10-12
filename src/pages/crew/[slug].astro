@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/Band.astro';
+import { CREW, type Crew } from '../../data/site';
+
+export function getStaticPaths() {
+  return CREW.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Crew };
+const renk = { red: 'var(--red)', pink: 'var(--pink)', blue: 'var(--blue)', orange: 'var(--orange)', yellow: 'var(--yellow-d)' }[c.color];
+const tint = { red: 'var(--t-red)', pink: 'var(--t-pink)', blue: 'var(--t-blue)', orange: 'var(--t-orange)', yellow: 'var(--t-yellow)' }[c.color];
+---
+<Base title={`${c.name} ${c.role}`} description={`${c.about}`} image={c.img.src}>
+  <section class="phero" style={`background:${tint};padding-bottom:var(--sec);border-radius:0 0 var(--r-xl) var(--r-xl)`}>
+    <div class="wrap split">
+      <div style="display:grid;gap:20px;text-align:left">
+        <p class="eyebrow">{c.role}</p>
+        <h1 data-split style={`color:${renk}`}>{c.name}</h1>
+        <p class="lead">{c.about}</p>
+        <ul class="facts">{c.facts.map((f) => <li>{f}</li>)}</ul>
+        <p><button class="btn btn--yellow" data-ses={c.sound}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 5V5L7 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z" /></svg>Hear {c.name}: “{c.say}”
+        </button></p>
+      </div>
+      <img class="big-char reveal" src={c.img.src} alt={`${c.name}, ${c.role.toLowerCase()}`} width={c.img.w} height={c.img.h} />
+    </div>
+  </section>
+  <nav class="crew-nav wrap" aria-label="Other characters">
+    {CREW.filter((x) => x.slug !== c.slug).map((x) => <a href={`/crew/${x.slug}/`}>{x.name}</a>)}
+  </nav>
+  <Band title={`Watch ${c.name} on YouTube!`} />
+</Base>

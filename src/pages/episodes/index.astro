@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/Band.astro';
+import { EPISODES } from '../../data/site';
+const liste = [...EPISODES].reverse();
+---
+<Base title="Episodes" description="Watch every Vumibo Rescue Crew episode: fire truck, ambulance, police car, tow truck and digger songs and stories for toddlers.">
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-self:center">All episodes</p>
+      <h1 data-split class="reveal">Rescue <span class="rainbow">stories</span></h1>
+      <p class="lead reveal">A brand-new sing-along rescue every week. Start with episode 1 and watch them in order!</p>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:40px">
+    <div class="wrap grid-ep">
+      {liste.map((e, i) => (
+        <a class="ep-card reveal" href={`/episodes/${e.slug}/`} style={`--d:${i}`}>
+          <img src={e.thumb} alt={`Episode ${e.no}: ${e.title}`} width="1280" height="720" loading="lazy" />
+          <p class="ep-no">Episode {e.no}</p>
+          <h3>{e.title}</h3>
+          <p>{e.summary}</p>
+        </a>
+      ))}
+      <div class="soon reveal" style="--d:2"><div><h3>Episode 2</h3><p>Coming soon – stay tuned!</p></div></div>
+    </div>
+  </section>
+  <Band />
+</Base>

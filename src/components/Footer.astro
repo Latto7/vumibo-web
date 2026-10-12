@@ -1,0 +1,27 @@
+---
+import { SITE } from '../data/site';
+const yil = new Date().getFullYear();
+---
+<footer class="foot">
+  <img class="foot__crew" src="/img/araclar.webp" alt="The Vumibo Rescue Crew lined up together" width="1600" height="310" loading="lazy" />
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <img class="foot__logo" src="/img/logo.webp" alt="Vumibo" width="900" height="261" loading="lazy" />
+        <p>Rescue Crew songs &amp; cartoons for kids ages 2–6.</p>
+      </div>
+      <nav class="foot__social" aria-label="Vumibo channels">
+        <a href={SITE.links.youtube} target="_blank" rel="noopener">YouTube</a>
+        <a href={SITE.links.spotify} target="_blank" rel="noopener">Spotify</a>
+        <a href={SITE.links.apple} target="_blank" rel="noopener">Apple Music</a>
+        <a href={SITE.links.instagram} target="_blank" rel="noopener">Instagram</a>
+        <a href={SITE.links.tiktok} target="_blank" rel="noopener">TikTok</a>
+      </nav>
+    </div>
+    <nav class="foot__nav" aria-label="Footer">
+      {SITE.nav.map((n) => <a href={n.href}>{n.label}</a>)}
+      <a href="/privacy/">Privacy</a>
+    </nav>
+    <p class="foot__copy">© {yil} Vumibo. Made with love for little ones.</p>
+  </div>
+</footer>

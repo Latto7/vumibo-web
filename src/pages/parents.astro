@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Values from '../components/Values.astro';
+import Band from '../components/Band.astro';
+const faq = [
+  ['What age is Vumibo for?', 'Vumibo is made for toddlers and preschoolers, roughly ages 2 to 6. Older siblings love singing along too!'],
+  ['How often are new episodes released?', 'A new episode arrives every week, plus long sing-along compilations that are perfect for car rides and quiet time.'],
+  ['Are the songs available without video?', 'Yes! All songs are on Spotify and Apple Music, so your little one can listen screen-free.'],
+  ['What will my child learn?', 'Each episode practices colors, counting and vehicle names, plus everyday values like helping, taking turns and “safety first”.'],
+  ['Are there crashes or scary scenes?', 'Never. Problems are small and gentle – a ball gets stuck, blocks tumble – and the story always ends with a happy, safe rescue.'],
+  ['How is Vumibo made?', 'Every episode is animated in 3D by our small team. Character voices and songs are produced with modern digital tools and carefully reviewed for young ears.'],
+];
+const jsonld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+---
+<Base title="For Parents" description="Vumibo is gentle, safe and educational: colors, counting, safety and kindness through songs. No scary crashes, no trackers. Made for kids ages 2–6." jsonld={jsonld}>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-self:center">For parents</p>
+      <h1 data-split>Made with <span class="rainbow">care</span></h1>
+      <p class="lead reveal">Everything we make is designed for little eyes, little ears and big imaginations.</p>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:60px"><div class="wrap"><Values /></div></section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div class="prose reveal" style="margin:0">
+        <p class="eyebrow">Our approach</p>
+        <h2>Play. Oh no! Rescue. Yay!</h2>
+        <p>Every episode follows the same simple rhythm, so children can predict what comes next and join in. Repetition builds confidence; songs build memory.</p>
+        <ul>
+          <li><strong>Colors</strong> – every crew member has one clear color.</li>
+          <li><strong>Counting</strong> – blocks, balls and cones are counted out loud.</li>
+          <li><strong>Safety</strong> – stopping, looking and taking turns, modeled by Siro.</li>
+          <li><strong>Kindness</strong> – Ambie makes sure everyone feels “all better”.</li>
+        </ul>
+      </div>
+      <img class="reveal big-char" src="/img/bebekler.webp" alt="Vumi and Bo waving" width="1267" height="1292" loading="lazy" style="max-width:460px;justify-self:center" />
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <header class="sec__head"><p class="eyebrow">FAQ</p><h2>Questions from parents</h2></header>
+      <div class="faq" style="margin-top:0">
+        {faq.map(([q, a]) => <details class="reveal"><summary>{q}</summary><p>{a}</p></details>)}
+      </div>
+    </div>
+  </section>
+  <Band />
+</Base>

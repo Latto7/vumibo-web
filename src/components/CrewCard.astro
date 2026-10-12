@@ -1,0 +1,15 @@
+---
+import type { Crew } from '../data/site';
+interface Props { c: Crew; d?: number; link?: boolean }
+const { c, d = 0, link = true } = Astro.props;
+---
+<article class={`card card--${c.color} reveal`} style={`--d:${d}`}>
+  <button class="card__btn" data-ses={c.sound} aria-label={`Hear ${c.name} say: ${c.say}`}>
+    <img src={c.img.src} alt={`${c.name}, ${c.role.toLowerCase().replace('the ', 'a smiling ')}`} width={c.img.w} height={c.img.h} loading="lazy" />
+  </button>
+  <h3>{c.name}</h3>
+  <p class="card__role">{c.role}</p>
+  <p class="card__say">“{c.say}”</p>
+  <p class="card__txt">{c.short}</p>
+  {link && <a class="card__more" href={`/crew/${c.slug}/`}>Meet {c.name}</a>}
+</article>

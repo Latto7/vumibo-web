@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import CrewCard from '../components/CrewCard.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
+import SecHead from '../components/SecHead.astro';
+import Music from '../components/Music.astro';
+import Values from '../components/Values.astro';
+import Band from '../components/Band.astro';
+import { CREW, KIDS, EPISODES } from '../data/site';
+const ep = EPISODES[EPISODES.length - 1];
+const renk = { red: 'var(--red)', pink: 'var(--pink)', blue: 'var(--blue)', orange: 'var(--orange)', yellow: 'var(--yellow-d)' };
+---
+<Base preloadHero>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero__card">
+      <div class="hero__clip" aria-hidden="true">
+        <img class="hero__bg" src="/img/hero.webp" alt="" width="2200" height="1237" fetchpriority="high" />
+        <div class="hero__shade"></div>
+      </div>
+      <div class="hero__text">
+        <p class="eyebrow eyebrow--light h-in">Songs &amp; cartoons for ages 2–6</p>
+        <h1 class="hero__title" data-split>Big rescues<br />for <span class="rainbow">little heroes</span>.</h1>
+        <p class="hero__lead h-in">Sing, count and learn colors with Vumi, Bo and the friendliest rescue team in the toy town.</p>
+        <div class="hero__cta h-in">
+          <a class="btn btn--yellow magnet" href="#episode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>Watch episode {ep.no}</a>
+          <a class="btn btn--ghost magnet" href="#music">Listen to the songs</a>
+        </div>
+        <ul class="hero__badges h-in"><li>New episode every week</li><li>No scary crashes</li><li>Made for kids</li></ul>
+      </div>
+      <img class="hero__kids" src="/img/bebekler.webp" alt="Vumi and Bo, two smiling baby siblings, waving hello" width="1267" height="1292" />
+      <span class="float f1" data-depth="40" aria-hidden="true"></span><span class="float f2" data-depth="-30" aria-hidden="true"></span>
+      <span class="float f3" data-depth="55" aria-hidden="true"></span><span class="float f4" data-depth="-45" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {[0, 1].map(() => ['Fire trucks', 'Police cars', 'Ambulances', 'Tow trucks', 'Diggers', 'Colors', 'Counting', 'Kindness'].map((w) => <><span>{w}</span><i></i></>))}
+    </div>
+  </div>
+
+  <!-- LATEST EPISODE -->
+  <section class="sec episode" id="episode">
+    <div class="wrap episode__grid">
+      <div class="reveal"><LiteYouTube id={ep.youtubeId} title={`Episode ${ep.no}: ${ep.title}`} thumb={ep.thumb} /></div>
+      <div class="episode__info reveal" style="--d:1">
+        <p class="eyebrow">New · Episode {ep.no}</p>
+        <h2>{ep.title}</h2>
+        <p class="lead">{ep.summary}</p>
+        <ul class="chips">{ep.learn.map((l, i) => <li class={`chip chip--${['red', 'blue', 'yellow', 'green'][i % 4]}`}>{l}</li>)}</ul>
+        <a class="btn btn--blue magnet" href={`/episodes/${ep.slug}/`}>Episode details &amp; chapters</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESCUE PARADE (pinned scroll scene) -->
+  <section class="parade" id="parade" aria-label="The Rescue Crew drives by">
+    <div class="parade__pin">
+      <div class="parade__clouds" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="eyebrow parade__eyebrow">Vumibo Rescue, GO!</p>
+      <h2 class="parade__title">Here comes the <span class="rainbow">Rescue Crew!</span></h2>
+      <div class="parade__label" aria-live="polite"><strong>Ruby</strong><span>The Fire Truck</span></div>
+      <div class="parade__road" aria-hidden="true"></div>
+      <div class="parade__cars">
+        {CREW.map((c) => (
+          <figure class="pcar" data-name={c.name} data-role={c.role} style={`--c:${renk[c.color]}`}>
+            <span class="pcar__siren" aria-hidden="true"></span>
+            <img src={c.img.src} alt={`${c.name} ${c.role.toLowerCase()}`} width={c.img.w} height={c.img.h} loading="lazy" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CREW -->
+  <section class="sec crew" id="crew">
+    <div class="wrap">
+      <SecHead eyebrow="The Vumibo Rescue Crew" title="Five friends. One big heart." lead="Tap a friend to hear them say hello!" />
+      <div class="crew__grid">{CREW.map((c, i) => <CrewCard c={c} d={i} />)}</div>
+    </div>
+  </section>
+
+  <!-- VUMI & BO -->
+  <section class="sec kids">
+    <div class="wrap kids__grid">
+      <div class="kids__art reveal">
+        <div class="kids__sun" aria-hidden="true"></div>
+        <img src="/img/portre.webp" alt="Vumi and Bo laughing cheek to cheek" width="1200" height="1083" loading="lazy" />
+      </div>
+      <div class="kids__text reveal" style="--d:1">
+        <p class="eyebrow">Vumi + Bo = Vumibo</p>
+        <h2 data-split>Meet the giant little siblings.</h2>
+        <p class="lead">Vumi and Bo build a whole toy town on their playroom floor. When something goes wrong, they call their tiny heroes – and every problem turns into a song.</p>
+        <div class="kids__pair">
+          {KIDS.map((k) => (
+            <button class={`mini mini--${k.color}`} data-ses={k.sound}>
+              <img src={k.img.src} alt="" width={k.img.w} height={k.img.h} loading="lazy" />
+              <span><strong>{k.name}</strong><em>{k.text}</em></span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RITUAL -->
+  <section class="sec ritual">
+    <div class="wrap">
+      <SecHead eyebrow="Every episode" title="Play. Oh no! Rescue. Yay!" lead="A simple, repeating story that little ones can follow, predict and join in with." />
+      <ol class="steps">
+        <li class="step reveal" style="--d:0"><span class="step__n">1</span><h3>Play time</h3><p>Vumi and Bo play in their colorful toy town.</p></li>
+        <li class="step reveal" style="--d:1"><span class="step__n">2</span><h3>Oh no!</h3><p>A ball gets stuck or a tower tumbles – nobody gets hurt.</p></li>
+        <li class="step reveal" style="--d:2"><span class="step__n">3</span><h3>Rescue, GO!</h3><p>The crew rolls out, names colors and counts together.</p></li>
+        <li class="step reveal" style="--d:3"><span class="step__n">4</span><h3>Yay! Song</h3><p>Everyone celebrates with a happy sing-along.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <Music />
+
+  <!-- PARENTS -->
+  <section class="sec parents" id="parents">
+    <div class="wrap">
+      <SecHead eyebrow="For parents" title="Gentle, happy and made to learn." />
+      <Values />
+      <p style="text-align:center;margin-top:40px"><a class="btn btn--blue magnet" href="/parents/">Read our approach &amp; FAQ</a></p>
+    </div>
+  </section>
+
+  <Band />
+</Base>

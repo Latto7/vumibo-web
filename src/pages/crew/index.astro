@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import CrewCard from '../../components/CrewCard.astro';
+import Band from '../../components/Band.astro';
+import { CREW, KIDS } from '../../data/site';
+---
+<Base title="Meet the Rescue Crew" description="Meet Vumi, Bo and the Vumibo Rescue Crew: Ruby the Fire Truck, Ambie the Ambulance, Siro the Police Car, Tuggy the Tow Truck and Diggo the Digger.">
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-self:center">Characters</p>
+      <h1 data-split>Meet the <span class="rainbow">Crew</span></h1>
+      <p class="lead reveal">Five tiny heroes and two giant little siblings. Tap anyone to hear them!</p>
+    </div>
+  </section>
+  <section class="sec crew" style="padding-top:var(--sec)">
+    <div class="wrap"><div class="crew__grid">{CREW.map((c, i) => <CrewCard c={c} d={i} />)}</div></div>
+  </section>
+  <section class="sec kids">
+    <div class="wrap kids__grid">
+      <div class="kids__art reveal"><div class="kids__sun" aria-hidden="true"></div><img src="/img/portre.webp" alt="Vumi and Bo laughing cheek to cheek" width="1200" height="1083" loading="lazy" /></div>
+      <div class="kids__text reveal" style="--d:1">
+        <p class="eyebrow">Vumi + Bo = Vumibo</p>
+        <h2 data-split>The giant little siblings.</h2>
+        <p class="lead">Vumi and Bo are the heart of every story. They build the toy town, start the adventures and call the Rescue Crew whenever help is needed.</p>
+        <div class="kids__pair">
+          {KIDS.map((k) => (
+            <button class={`mini mini--${k.color}`} data-ses={k.sound}>
+              <img src={k.img.src} alt="" width={k.img.w} height={k.img.h} loading="lazy" />
+              <span><strong>{k.name}</strong><em>{k.text}</em></span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <Band />
+</Base>

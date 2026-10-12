@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import LiteYouTube from '../../components/LiteYouTube.astro';
+import CrewCard from '../../components/CrewCard.astro';
+import Band from '../../components/Band.astro';
+import { EPISODES, CREW, type Episode } from '../../data/site';
+
+export function getStaticPaths() {
+  return EPISODES.map((e) => ({ params: { slug: e.slug }, props: { e } }));
+}
+const { e } = Astro.props as { e: Episode };
+const jsonld = {
+  '@context': 'https://schema.org', '@type': 'VideoObject',
+  name: `${e.title} | Vumibo Kids Songs`, description: e.summary,
+  thumbnailUrl: new URL(e.thumb, Astro.site).toString(), uploadDate: e.date, duration: e.duration,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${e.youtubeId}`, contentUrl: `https://www.youtube.com/watch?v=${e.youtubeId}`,
+};
+---
+<Base title={`Episode ${e.no}: ${e.title}`} description={e.summary} image={e.thumb} jsonld={jsonld}>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-self:center">Episode {e.no}</p>
+      <h1 data-split>{e.title}</h1>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:40px">
+    <div class="wrap episode__grid">
+      <div class="reveal"><LiteYouTube id={e.youtubeId} title={`Episode ${e.no}: ${e.title}`} thumb={e.thumb} /></div>
+      <div class="episode__info reveal" style="--d:1">
+        <p class="lead">{e.summary}</p>
+        <ul class="chips">{e.learn.map((l, i) => <li class={`chip chip--${['red', 'blue', 'yellow', 'green'][i % 4]}`}>{l}</li>)}</ul>
+        <h3 style="margin-top:8px">Chapters</h3>
+        <ol class="chapters">{e.chapters.map(([t, n]) => <li><time>{t}</time>{n}</li>)}</ol>
+      </div>
+    </div>
+  </section>
+  <section class="sec crew" style="padding-top:var(--sec)">
+    <div class="wrap">
+      <header class="sec__head"><p class="eyebrow">In this episode</p><h2>The whole crew!</h2></header>
+      <div class="crew__grid">{CREW.map((c, i) => <CrewCard c={c} d={i} />)}</div>
+    </div>
+  </section>
+  <Band />
+</Base>

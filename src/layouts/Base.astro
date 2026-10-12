@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import '../styles/motion.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  jsonld?: Record<string, unknown>;
+  preloadHero?: boolean;
+}
+const { title, description = SITE.description, image = '/og.jpg', jsonld, preloadHero = false } = Astro.props;
+const fullTitle = title ? `${title} | Vumibo` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const org = {
+  '@context': 'https://schema.org', '@type': 'Organization', name: 'Vumibo', url: Astro.site?.toString(),
+  logo: new URL('/img/logo.png', Astro.site).toString(),
+  sameAs: [SITE.links.youtube, SITE.links.spotify, SITE.links.apple, SITE.links.instagram, SITE.links.tiktok],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#fff6e5" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vumibo" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="/fonts/Fredoka.ttf" as="font" type="font/ttf" crossorigin />
+    {preloadHero && <link rel="preload" href="/img/hero.webp" as="image" />}
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>
+      import { motion } from '../scripts/motion';
+      motion();
+      // Kaydirinca beliren ogeler
+      // gorunur olan ya da ekranin yukarisinda kalan (atlanmis) ogeleri ac
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      }), { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // Asagi kaydirirken menuyu gizle, yukari kaydirinca goster
+      const nav = document.getElementById('nav');
+      let son = 0;
+      addEventListener('scroll', () => {
+        const y = scrollY;
+        nav?.classList.toggle('is-hidden', y > son && y > 240);
+        son = y;
+      }, { passive: true });
+
+      // Mobil menu
+      const btn = document.querySelector<HTMLButtonElement>('.nav__menu');
+      const menu = document.getElementById('mobil');
+      btn?.addEventListener('click', () => {
+        const acik = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!acik));
+        if (menu) menu.hidden = acik;
+      });
+      menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { if (menu) menu.hidden = true; btn?.setAttribute('aria-expanded', 'false'); }));
+
+      // Karakter sesleri (tiklayinca calar)
+      let calan: HTMLAudioElement | null = null;
+      document.querySelectorAll<HTMLElement>('[data-ses]').forEach((el) => {
+        el.addEventListener('click', () => {
+          calan?.pause();
+          calan = new Audio(`/audio/${el.dataset.ses}.mp3`);
+          calan.play().catch(() => {});
+          el.classList.add('is-playing');
+          calan.addEventListener('ended', () => el.classList.remove('is-playing'));
+        });
+      });
+
+      // YouTube: tiklayinca gizlilik modunda yuklenir
+      document.querySelectorAll<HTMLButtonElement>('.lite').forEach((b) => {
+        b.addEventListener('click', () => {
+          const f = document.createElement('iframe');
+          f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0&modestbranding=1`;
+          f.title = b.getAttribute('aria-label') || 'Vumibo video';
+          f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+          f.allowFullscreen = true;
+          b.replaceChildren(f);
+        }, { once: true });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "vumibo-web",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vumibo – Rescue Crew songs & cartoons for kids. Official website.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^5.18.2",
+    "gsap": "^3.15.0"
+  }
+}
